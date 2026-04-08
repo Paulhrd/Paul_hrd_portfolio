@@ -2,25 +2,25 @@
   --bg: #f8fafc;
   --bg-accent: #e2e8f0;
   --panel: rgba(255, 255, 255, 0.75);
-  --text: #0f1115;
+  --text: #07111F;
   --text-muted: #475569;
-  --primary: #6366f1;
-  --secondary: #a855f7;
-  --tertiary: #b95f00;
-  --border: rgba(15, 17, 21, 0.08);
+  --primary: #3ECFCD;
+  --secondary: #4F8CFF;
+  --tertiary: #F2B84B;
+  --border: rgba(7, 17, 31, 0.08);
   --shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.06);
   --glass-border: rgba(255, 255, 255, 0.4);
 }
 
 .dark {
-  --bg: #0f1115;
-  --bg-accent: #1e1b4b;
-  --panel: rgba(23, 25, 33, 0.6);
+  --bg: #07111F;
+  --bg-accent: #0b1a2e;
+  --panel: rgba(11, 26, 46, 0.75);
   --text: #f8fafc;
   --text-muted: #94a3b8;
-  --primary: #6366f1;
-  --secondary: #a855f7;
-  --tertiary: #b95f00;
+  --primary: #3ECFCD;
+  --secondary: #4F8CFF;
+  --tertiary: #F2B84B;
   --border: rgba(255, 255, 255, 0.06);
   --shadow: 0 20px 48px -8px rgba(0, 0, 0, 0.5);
   --glass-border: rgba(255, 255, 255, 0.05);
@@ -68,7 +68,7 @@ body {
   left: -10%;
   width: 60vw;
   height: 60vw;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(62, 207, 205, 0.15) 0%, transparent 70%);
 }
 
 .background-glow::after {
@@ -76,15 +76,15 @@ body {
   right: -10%;
   width: 70vw;
   height: 70vw;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(79, 140, 255, 0.15) 0%, transparent 70%);
 }
 
 .dark .background-glow::before {
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(62, 207, 205, 0.25) 0%, transparent 70%);
 }
 
 .dark .background-glow::after {
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(79, 140, 255, 0.2) 0%, transparent 70%);
 }
 
 a {
@@ -270,7 +270,7 @@ p {
   height: 100%;
   object-fit: cover;
   border-radius: 40px;
-  box-shadow: 0 24px 48px -12px rgba(168, 85, 247, 0.25);
+  box-shadow: 0 24px 48px -12px rgba(79, 140, 255, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transform: rotate(3deg);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -278,7 +278,7 @@ p {
 
 .hero-image:hover {
   transform: rotate(0deg) scale(1.03);
-  box-shadow: 0 32px 64px -12px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 32px 64px -12px rgba(79, 140, 255, 0.4);
 }
 
 .eyebrow,
@@ -286,7 +286,7 @@ p {
   display: inline-block;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(62, 207, 205, 0.1);
   color: var(--primary);
   font-size: 0.85rem;
   font-weight: 700;
@@ -327,12 +327,12 @@ p {
 .button.primary {
   color: #ffffff;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
-  box-shadow: 0 12px 24px -6px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 12px 24px -6px rgba(62, 207, 205, 0.4);
   border: none;
 }
 
 .button.primary:hover {
-  box-shadow: 0 16px 32px -6px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 16px 32px -6px rgba(62, 207, 205, 0.5);
   transform: translateY(-2px) scale(1.02);
 }
 
@@ -381,7 +381,7 @@ p {
 
 .card:hover {
   transform: translateY(-4px);
-  border-color: rgba(168, 85, 247, 0.3);
+  border-color: rgba(79, 140, 255, 0.3);
   box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2);
 }
 
@@ -407,7 +407,7 @@ p {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(168, 85, 247, 0.1);
+  background: rgba(79, 140, 255, 0.1);
   color: var(--secondary);
   font-weight: 700;
   font-size: 0.85rem;
@@ -477,7 +477,7 @@ p {
 }
 
 .skill-badge:hover {
-  background: rgba(168, 85, 247, 0.1);
+  background: rgba(79, 140, 255, 0.1);
   border-color: var(--secondary);
   color: var(--secondary);
 }
@@ -588,7 +588,7 @@ p {
 .clickable-card:hover {
   transform: translateY(-6px) scale(1.02);
   border-color: var(--primary);
-  box-shadow: 0 24px 64px -16px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 24px 64px -16px rgba(62, 207, 205, 0.3);
 }
 
 .clickable-card:hover .read-more {
@@ -727,15 +727,15 @@ p {
   border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 600;
-  background: rgba(168, 85, 247, 0.1);
+  background: rgba(79, 140, 255, 0.1);
   color: var(--secondary);
-  border: 1px solid rgba(168, 85, 247, 0.2);
+  border: 1px solid rgba(79, 140, 255, 0.2);
 }
 
 .tech-badge {
-  background: rgba(99, 102, 241, 0.1);
+  background: rgba(62, 207, 205, 0.1);
   color: var(--primary);
-  border-color: rgba(99, 102, 241, 0.2);
+  border-color: rgba(62, 207, 205, 0.2);
 }
 
 @keyframes fadeIn {
