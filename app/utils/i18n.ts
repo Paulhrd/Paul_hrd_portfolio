@@ -16,7 +16,7 @@ export const dictionaries = {
     experiences: {
       label: "Journey",
       title: "My Experiences",
-      subtitle: "Timeline of my professional journey loaded from the database.",
+      subtitle: "Timeline of my professional journey.",
       empty: "No professional experiences yet",
       emptyDesc: "Add rows in the `experiences` table to see them here.",
       error: "Unable to load experiences",
@@ -35,7 +35,7 @@ export const dictionaries = {
     contact: {
       label: "Discussion",
       title: "Want to collaborate?",
-      text: "I am always open to new opportunities or simply to chat about web technologies and product design.",
+      text: "I’m open to new challenges around data, AI, and building high-impact systems.",
       button: "Contact me",
       linkedin: "Connect on LinkedIn",
     },
