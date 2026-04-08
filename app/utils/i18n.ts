@@ -3,7 +3,7 @@ export const dictionaries = {
     hero: {
       eyebrow: "Personal Portfolio",
       title: "I turn data into intelligent products: interfaces, automations, and AI models.",
-      intro: "This version loads your experiences in real-time from Supabase into a blazing fast interface powered by Next.js.",
+      intro: "Full-stack & data science engineer, I build data-driven applications and solutions. Open to opportunities worldwide.",
       explore: "Explore my experiences",
       download: "Download my Resume",
     },
@@ -37,13 +37,14 @@ export const dictionaries = {
       title: "Want to collaborate?",
       text: "I am always open to new opportunities or simply to chat about web technologies and product design.",
       button: "Contact me",
+      linkedin: "Connect on LinkedIn",
     },
   },
   fr: {
     hero: {
       eyebrow: "Portfolio Personnel",
       title: "Je transforme la data en produits intelligents : interfaces, automatisations et modèles d'IA.",
-      intro: "Cette version charge vos experiences en temps reel depuis Supabase dans une interface ultra-rapide propulsee par Next.js.",
+      intro: "Ingénieur full-stack & data science, je développe des applications et solutions data-driven. Ouvert à des opportunités partout dans le monde.",
       explore: "Explorer mes experiences",
       download: "Telecharger mon CV",
     },
@@ -77,6 +78,7 @@ export const dictionaries = {
       title: "Envie de collaborer ?",
       text: "Je suis toujours ouvert a de nouvelles opportunites ou simplement pour echanger autour des technologies web et du design produit.",
       button: "Me contacter",
+      linkedin: "Discuter sur LinkedIn",
     },
   },
 };

@@ -138,7 +138,6 @@ p {
 .hero,
 .panel {
   position: relative;
-  overflow: hidden;
   border: 1px solid var(--border);
   border-top-color: var(--glass-border);
   border-left-color: var(--glass-border);
