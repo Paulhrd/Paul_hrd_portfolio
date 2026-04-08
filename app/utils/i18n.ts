@@ -61,7 +61,7 @@ export const dictionaries = {
     experiences: {
       label: "Parcours",
       title: "Experiences Professionnelles",
-      subtitle: "Chronologie de mon parcours professionnel charge depuis la base de donnees.",
+      subtitle: "Chronologie de mon parcours professionnel.",
       empty: "Aucune experience pour le moment",
       emptyDesc: "Ajoute des lignes dans la table `experiences` pour les voir apparaitre ici.",
       error: "Impossible de charger les experiences",
