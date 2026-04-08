@@ -11,14 +11,21 @@ import { dictionaries, type Locale } from "./utils/i18n";
 export default async function Page() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
-  
+
   const currentLocale = (cookieStore.get("NEXT_LOCALE")?.value as Locale) || "en";
   const dict = dictionaries[currentLocale];
 
-  const { data: experiencesData, error } = await supabase
-    .from("experiences")
-    .select("*")
-    .order("start_date", { ascending: false });
+  let experiencesData: ExperienceRow[] | null = null;
+  let error: { message: string } | null = null;
+
+  if (supabase) {
+    const result = await supabase
+      .from("experiences")
+      .select("*")
+      .order("start_date", { ascending: false });
+    experiencesData = result.data;
+    error = result.error;
+  }
 
   const educations = (experiencesData?.filter(e => e.type === "eduction" || e.type === "education") || []) as ExperienceRow[];
   const experiences = (experiencesData?.filter(e => e.type !== "eduction" && e.type !== "education") || []) as ExperienceRow[];
