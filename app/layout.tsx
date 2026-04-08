@@ -17,8 +17,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Paul Huard | Portfolio",
-  description: "Portfolio Next.js avec experiences chargees depuis Supabase.",
+  title: "Paul Huard | Full-Stack & Data Science",
+  description: "I build data-driven applications and intelligent solutions. Open to opportunities worldwide.",
+  openGraph: {
+    title: "Paul Huard | Software Engineer",
+    description: "Ingénieur full-stack & data science. Je transforme la data en produits intelligents.",
+    url: "https://paulhuard.com",
+    siteName: "Paul Huard Portfolio",
+    images: [
+      {
+        url: "/profile.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Paul Huard",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Paul Huard | Portfolio",
+    description: "Ingénieur full-stack & data science. Découvrez mon parcours.",
+    images: ["/profile.jpg"],
+  },
 };
 
 export default async function RootLayout({

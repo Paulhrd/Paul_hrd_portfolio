@@ -111,7 +111,7 @@ h3,
 }
 
 h1 {
-  font-size: clamp(2.8rem, 7vw, 5.2rem);
+  font-size: clamp(2.8rem, 7vw, 4rem);
   font-weight: 800;
   margin-top: 16px;
   background: linear-gradient(to right, var(--text), var(--text-muted));
@@ -296,7 +296,7 @@ p {
 }
 
 .intro,
-.panel > p,
+.panel>p,
 .card-content p {
   color: var(--text-muted);
   font-size: 1.15rem;
@@ -392,7 +392,7 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -516,10 +516,21 @@ p {
   transform: translateY(0);
 }
 
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-400 { transition-delay: 400ms; }
+.delay-100 {
+  transition-delay: 100ms;
+}
+
+.delay-200 {
+  transition-delay: 200ms;
+}
+
+.delay-300 {
+  transition-delay: 300ms;
+}
+
+.delay-400 {
+  transition-delay: 400ms;
+}
 
 /* Responsive */
 @media (max-width: 860px) {
@@ -528,7 +539,7 @@ p {
     text-align: center;
     gap: 32px;
   }
-  
+
   .hero-content {
     padding: 20px 0;
     align-items: center;
@@ -539,24 +550,26 @@ p {
   .hero-actions {
     justify-content: center;
   }
-  
+
   .hero-image-container {
     width: 240px;
     height: 240px;
   }
-  
-  .hero, .panel {
+
+  .hero,
+  .panel {
     padding: 30px 20px;
     border-radius: 24px;
   }
-  
+
   .section-heading {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .nav-links {
-    display: none; /* Hide on mobile for simplicity, could add hamburger */
+    display: none;
+    /* Hide on mobile for simplicity, could add hamburger */
   }
 
   .modal-content {
@@ -597,7 +610,7 @@ p {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;  
+  -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
@@ -726,8 +739,13 @@ p {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUpFade {
@@ -735,6 +753,7 @@ p {
     opacity: 0;
     transform: translateY(40px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
