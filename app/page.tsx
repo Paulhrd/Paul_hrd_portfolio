@@ -2,65 +2,11 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { LanguageToggle } from "./components/LanguageToggle";
+import { SkillsMarquee } from "./components/SkillsMarquee";
+import { ExperienceGrid, type ExperienceRow } from "./components/ExperienceGrid";
 import { FadeIn } from "./hooks/useIntersectionObserver";
 import { ArrowRight, Download, Mail, BookOpen, Briefcase } from "lucide-react";
 import { dictionaries, type Locale } from "./utils/i18n";
-
-type ExperienceRow = {
-  id?: string | number;
-  type?: string | null;
-  title?: string | null;
-  title_fr?: string | null;
-  role?: string | null;
-  company?: string | null;
-  company_fr?: string | null;
-  location?: string | null;
-  start_date?: string | null;
-  end_date?: string | null;
-  description?: string | null;
-  description_fr?: string | null;
-  impact_fr?: string | null;
-  [key: string]: unknown;
-};
-
-function formatPeriod(experience: ExperienceRow, locale: Locale) {
-  const start = typeof experience.start_date === "string" ? experience.start_date : null;
-  const end = typeof experience.end_date === "string" ? experience.end_date : null;
-
-  if (!start && !end) {
-    return null;
-  }
-
-  const todayStr = locale === "fr" ? "Aujourd'hui" : "Present";
-  return [start, end ?? todayStr].filter(Boolean).join(" - ");
-}
-
-function getHeading(experience: ExperienceRow, locale: Locale) {
-  if (locale === "fr" && experience.title_fr) return experience.title_fr;
-  return experience.title || experience.role || "";
-}
-
-function getCompanyStr(experience: ExperienceRow, locale: Locale) {
-  const company = locale === "fr" && experience.company_fr ? experience.company_fr : experience.company;
-  return [company, experience.location].filter(Boolean).join(" • ");
-}
-
-function getDescription(experience: ExperienceRow, locale: Locale) {
-  if (locale === "fr" && experience.description_fr) {
-    if (experience.impact_fr) {
-      return `${experience.description_fr}\n\nImpact : ${experience.impact_fr}`;
-    }
-    return experience.description_fr;
-  }
-  return typeof experience.description === "string" ? experience.description : dictionaries[locale].experiences.syncSuccess;
-}
-
-function getKey(experience: ExperienceRow, index: number) {
-  if (typeof experience.id === "string" || typeof experience.id === "number") {
-    return String(experience.id);
-  }
-  return `exp-${index}`;
-}
 
 export default async function Page() {
   const cookieStore = await cookies();
@@ -74,8 +20,22 @@ export default async function Page() {
     .select("*")
     .order("start_date", { ascending: false });
 
-  const educations = experiencesData?.filter(e => e.type === "eduction" || e.type === "education") || [];
-  const experiences = experiencesData?.filter(e => e.type !== "eduction" && e.type !== "education") || [];
+  const educations = (experiencesData?.filter(e => e.type === "eduction" || e.type === "education") || []) as ExperienceRow[];
+  const experiences = (experiencesData?.filter(e => e.type !== "eduction" && e.type !== "education") || []) as ExperienceRow[];
+
+  const allSkills = new Set<string>();
+  if (experiencesData) {
+    for (const exp of experiencesData) {
+      if (Array.isArray(exp.skills)) {
+        for (const skill of exp.skills) {
+          if (typeof skill === 'string' && skill.trim()) {
+            allSkills.add(skill.trim());
+          }
+        }
+      }
+    }
+  }
+  const uniqueSkills = Array.from(allSkills);
 
   return (
     <main className="page-shell">
@@ -143,33 +103,14 @@ export default async function Page() {
               <p>{error.message}</p>
             </div>
           </FadeIn>
-        ) : experiences && experiences.length > 0 ? (
-          <div className="cards">
-            {experiences.map((experience, index) => (
-              <FadeIn key={getKey(experience as ExperienceRow, index)} delay={(index % 4) * 100} className="card">
-                <div className="card-header">
-                  <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{getHeading(experience as ExperienceRow, currentLocale) || dict.experiences.title}</h3>
-                  <p className="card-subtitle">
-                    {getCompanyStr(experience as ExperienceRow, currentLocale)}
-                  </p>
-                  {formatPeriod(experience as ExperienceRow, currentLocale) && (
-                    <span className="card-period">{formatPeriod(experience as ExperienceRow, currentLocale)}</span>
-                  )}
-                </div>
-                <div className="card-content">
-                  <p style={{ whiteSpace: "pre-line" }}>{getDescription(experience as ExperienceRow, currentLocale)}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
         ) : (
-          <FadeIn delay={200}>
-            <div className="card">
-              <h3>{dict.experiences.empty}</h3>
-              <p>{dict.experiences.emptyDesc}</p>
-            </div>
-          </FadeIn>
+          <ExperienceGrid 
+            items={experiences} 
+            locale={currentLocale} 
+            fallbackTitle={dict.experiences.title}
+            dictEmpty={dict.experiences.empty}
+            dictEmptyDesc={dict.experiences.emptyDesc}
+          />
         )}
       </section>
 
@@ -187,33 +128,21 @@ export default async function Page() {
           </div>
         </FadeIn>
 
-        {error ? null : educations && educations.length > 0 ? (
-          <div className="cards">
-            {educations.map((experience, index) => (
-              <FadeIn key={getKey(experience as ExperienceRow, index)} delay={(index % 4) * 100} className="card">
-                <div className="card-header">
-                  <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
-                  <h3>{getHeading(experience as ExperienceRow, currentLocale) || dict.education.title}</h3>
-                  <p className="card-subtitle">
-                    {getCompanyStr(experience as ExperienceRow, currentLocale)}
-                  </p>
-                  {formatPeriod(experience as ExperienceRow, currentLocale) && (
-                    <span className="card-period">{formatPeriod(experience as ExperienceRow, currentLocale)}</span>
-                  )}
-                </div>
-                <div className="card-content">
-                  <p style={{ whiteSpace: "pre-line" }}>{getDescription(experience as ExperienceRow, currentLocale)}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
+        {error ? (
+           <FadeIn delay={200}>
+              <div className="card">
+                <h3>{dict.experiences.error}</h3>
+                <p>{error.message}</p>
+              </div>
+           </FadeIn>
         ) : (
-          <FadeIn delay={200}>
-            <div className="card">
-              <h3>{dict.education.empty}</h3>
-              <p>{dict.experiences.emptyDesc}</p>
-            </div>
-          </FadeIn>
+          <ExperienceGrid 
+            items={educations} 
+            locale={currentLocale} 
+            fallbackTitle={dict.education.title}
+            dictEmpty={dict.education.empty}
+            dictEmptyDesc={dict.experiences.emptyDesc}
+          />
         )}
       </section>
 
@@ -221,16 +150,7 @@ export default async function Page() {
         <section className="panel" id="skills">
           <span className="section-label">{dict.skills.label}</span>
           <h2>{dict.skills.title}</h2>
-          <div className="skill-list">
-            <span>Next.js 15</span>
-            <span>React 19</span>
-            <span>TypeScript</span>
-            <span>Supabase SSR</span>
-            <span>UI/UX Design</span>
-            <span>Tailwind CSS</span>
-            <span>Framer Motion</span>
-            <span>Performance (Vitals)</span>
-          </div>
+          <SkillsMarquee skills={uniqueSkills} />
         </section>
       </FadeIn>
 
