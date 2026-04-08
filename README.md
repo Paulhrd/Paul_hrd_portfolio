@@ -1,17 +1,21 @@
 # Portfolio Website
 
-Base de depot pour creer un site portfolio personnel avec CV telechargeable.
+Portfolio personnel en Next.js avec lecture de la table Supabase `experiences`.
 
-## Contenu
+## Scripts
 
-- `index.html` : page d'accueil du portfolio
-- `styles.css` : style visuel du site
-- `script.js` : petite animation d'apparition
-- `assets/cv/` : dossier pour ton CV PDF
+- `npm run dev` : lance le site en local
+- `npm run build` : verifie le build de production
+- `npm run start` : demarre l'app en production
 
-## Prochaine etape
+## Configuration
 
-1. Remplacer les textes d'exemple par tes vraies infos.
-2. Ajouter ton CV PDF dans `assets/cv/` avec le nom `paul-hurard-cv.pdf`.
-3. Ouvrir `index.html` dans un navigateur pour previsualiser le site.
-4. Pousser ensuite ce repo sur GitHub.
+1. Les variables Supabase sont attendues dans `.env.local`.
+2. Le bouton CV utilise `public/cv/paul-hurard-cv.pdf`.
+3. Les experiences sont chargees depuis Supabase dans `app/page.tsx`.
+
+## Structure
+
+- `app/` : routes et styles globaux Next.js
+- `utils/supabase/` : helpers client, serveur et middleware
+- `public/cv/` : dossier du CV telechargeable
