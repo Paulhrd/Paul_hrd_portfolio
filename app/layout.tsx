@@ -17,12 +17,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://huardpaul.netlify.app"),
   title: "Paul Huard | Full-Stack & Data Science",
   description: "I build data-driven applications and intelligent solutions. Open to opportunities worldwide.",
   openGraph: {
     title: "Paul Huard | Software Engineer",
     description: "Ingénieur full-stack & data science. Je transforme la data en produits intelligents.",
-    url: "https://paulhuard.com",
+    url: "https://huardpaul.netlify.app",
     siteName: "Paul Huard Portfolio",
     images: [
       {

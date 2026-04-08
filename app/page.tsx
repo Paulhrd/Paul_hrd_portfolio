@@ -170,6 +170,13 @@ export default async function Page() {
           </div>
         </section>
       </FadeIn>
+
+      <footer className="site-footer">
+        <p>{dict.footer.copyright}</p>
+        <p className="built-with">
+          {dict.footer.builtWith}
+        </p>
+      </footer>
     </main>
   );
 }

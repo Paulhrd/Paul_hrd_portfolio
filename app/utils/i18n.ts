@@ -39,6 +39,10 @@ export const dictionaries = {
       button: "Contact me",
       linkedin: "Connect on LinkedIn",
     },
+    footer: {
+      copyright: "© 2026 Paul Huard. All rights reserved.",
+      builtWith: "Built with Next.js & Supabase.",
+    },
   },
   fr: {
     hero: {
@@ -76,9 +80,13 @@ export const dictionaries = {
     contact: {
       label: "Discussion",
       title: "Envie de collaborer ?",
-      text: "Je suis toujours ouvert a de nouvelles opportunites ou simplement pour echanger autour des technologies web et du design produit.",
+      text: "Je suis ouvert à de nouveaux défis autour de la data, de l’IA et de la construction de systèmes à fort impact.",
       button: "Me contacter",
       linkedin: "Discuter sur LinkedIn",
+    },
+    footer: {
+      copyright: "© 2026 Paul Huard. Tous droits réservés.",
+      builtWith: "Propulsé par Next.js & Supabase.",
     },
   },
 };

@@ -1,0 +1,29 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <rect width="256" height="256" rx="64" fill="#0f1115" />
+  <rect width="256" height="256" rx="64" fill="url(#glow)" opacity="0.2" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+  
+  <text 
+    x="50%" 
+    y="55%" 
+    font-family="system-ui, -apple-system, sans-serif" 
+    font-weight="900" 
+    font-size="110" 
+    fill="url(#glow)" 
+    text-anchor="middle" 
+    dominant-baseline="middle" 
+    letter-spacing="-4"
+    filter="url(#shadow)"
+  >
+    PH
+  </text>
+</svg>
