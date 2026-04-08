@@ -1,20 +1,29 @@
 import { cookies } from "next/headers";
-
 import { createClient } from "@/utils/supabase/server";
+import { ThemeToggle } from "./components/ThemeToggle";
+import { LanguageToggle } from "./components/LanguageToggle";
+import { FadeIn } from "./hooks/useIntersectionObserver";
+import { ArrowRight, Download, Mail, BookOpen, Briefcase } from "lucide-react";
+import { dictionaries, type Locale } from "./utils/i18n";
 
 type ExperienceRow = {
   id?: string | number;
+  type?: string | null;
   title?: string | null;
+  title_fr?: string | null;
   role?: string | null;
   company?: string | null;
+  company_fr?: string | null;
   location?: string | null;
   start_date?: string | null;
   end_date?: string | null;
   description?: string | null;
+  description_fr?: string | null;
+  impact_fr?: string | null;
   [key: string]: unknown;
 };
 
-function formatPeriod(experience: ExperienceRow) {
+function formatPeriod(experience: ExperienceRow, locale: Locale) {
   const start = typeof experience.start_date === "string" ? experience.start_date : null;
   const end = typeof experience.end_date === "string" ? experience.end_date : null;
 
@@ -22,126 +31,219 @@ function formatPeriod(experience: ExperienceRow) {
     return null;
   }
 
-  return [start, end ?? "Aujourd'hui"].filter(Boolean).join(" - ");
+  const todayStr = locale === "fr" ? "Aujourd'hui" : "Present";
+  return [start, end ?? todayStr].filter(Boolean).join(" - ");
 }
 
-function getHeading(experience: ExperienceRow) {
-  return experience.title || experience.role || "Experience";
+function getHeading(experience: ExperienceRow, locale: Locale) {
+  if (locale === "fr" && experience.title_fr) return experience.title_fr;
+  return experience.title || experience.role || "";
+}
+
+function getCompanyStr(experience: ExperienceRow, locale: Locale) {
+  const company = locale === "fr" && experience.company_fr ? experience.company_fr : experience.company;
+  return [company, experience.location].filter(Boolean).join(" • ");
+}
+
+function getDescription(experience: ExperienceRow, locale: Locale) {
+  if (locale === "fr" && experience.description_fr) {
+    if (experience.impact_fr) {
+      return `${experience.description_fr}\n\nImpact : ${experience.impact_fr}`;
+    }
+    return experience.description_fr;
+  }
+  return typeof experience.description === "string" ? experience.description : dictionaries[locale].experiences.syncSuccess;
 }
 
 function getKey(experience: ExperienceRow, index: number) {
   if (typeof experience.id === "string" || typeof experience.id === "number") {
     return String(experience.id);
   }
-
-  return `${getHeading(experience)}-${index}`;
+  return `exp-${index}`;
 }
 
 export default async function Page() {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
+  
+  const currentLocale = (cookieStore.get("NEXT_LOCALE")?.value as Locale) || "en";
+  const dict = dictionaries[currentLocale];
 
-  const { data: experiences, error } = await supabase
+  const { data: experiencesData, error } = await supabase
     .from("experiences")
     .select("*")
     .order("start_date", { ascending: false });
 
+  const educations = experiencesData?.filter(e => e.type === "eduction" || e.type === "education") || [];
+  const experiences = experiencesData?.filter(e => e.type !== "eduction" && e.type !== "education") || [];
+
   return (
     <main className="page-shell">
-      <section className="hero">
+      <div className="background-glow" />
+
+      <header className="site-header">
         <nav className="topbar">
-          <span className="brand">Paul Hurard</span>
-          <div className="nav-links">
-            <a href="#experiences">Experiences</a>
-            <a href="#skills">Competences</a>
-            <a href="#contact">Contact</a>
+          <span className="brand">Paul Huard.</span>
+          <div className="nav-right">
+            <div className="nav-links">
+              <a href="#experiences">{dict.nav.experiences}</a>
+              <a href="#education">{dict.nav.education}</a>
+              <a href="#skills">{dict.nav.skills}</a>
+              <a href="#contact">{dict.nav.contact}</a>
+            </div>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <LanguageToggle currentLocale={currentLocale} />
+              <ThemeToggle />
+            </div>
           </div>
         </nav>
+      </header>
 
-        <div className="hero-content">
-          <p className="eyebrow">Portfolio personnel</p>
-          <h1>Je construis des interfaces web claires, modernes et utiles.</h1>
-          <p className="intro">
-            Cette version Next.js charge maintenant tes experiences depuis Supabase,
-            pour que ton portfolio reste facile a mettre a jour.
-          </p>
-          <div className="hero-actions">
-            <a className="button primary" href="#experiences">
-              Voir mes experiences
-            </a>
-            <a className="button secondary" href="/cv/paul-hurard-cv.pdf" download>
-              Telecharger mon CV
-            </a>
+      <FadeIn>
+        <section className="hero">
+          <div className="hero-grid">
+            <div className="hero-content">
+              <span className="eyebrow">{dict.hero.eyebrow}</span>
+              <h1>{dict.hero.title}</h1>
+              <p className="intro">{dict.hero.intro}</p>
+              <div className="hero-actions">
+                <a className="button primary" href="#experiences">
+                  {dict.hero.explore} <ArrowRight size={18} />
+                </a>
+                <a className="button secondary" href="/cv/paul-huard-cv.pdf" download>
+                  <Download size={18} /> {dict.hero.download}
+                </a>
+              </div>
+            </div>
+            <div className="hero-image-container">
+              <img src="/profile.jpg" alt="Paul Huard" className="hero-image" />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </FadeIn>
 
-      <section className="panel" id="experiences">
-        <p className="section-label">Experiences</p>
-        <div className="section-heading">
-          <h2>Parcours professionnel</h2>
-          <p>Les donnees ci-dessous viennent directement de ta table Supabase `experiences`.</p>
-        </div>
+      {/* Professional Experiences Section */}
+      <section id="experiences" className="panel" style={{ background: "transparent", border: "none", boxShadow: "none", padding: "40px 0" }}>
+        <FadeIn delay={100}>
+          <div className="section-heading">
+            <div>
+              <span className="section-label" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <Briefcase size={14} /> {dict.experiences.label}
+              </span>
+              <h2>{dict.experiences.title}</h2>
+              <p>{dict.experiences.subtitle}</p>
+            </div>
+          </div>
+        </FadeIn>
 
         {error ? (
-          <div className="empty-state">
-            <h3>Impossible de charger les experiences</h3>
-            <p>{error.message}</p>
-          </div>
+          <FadeIn delay={200}>
+            <div className="card">
+              <h3>{dict.experiences.error}</h3>
+              <p>{error.message}</p>
+            </div>
+          </FadeIn>
         ) : experiences && experiences.length > 0 ? (
           <div className="cards">
             {experiences.map((experience, index) => (
-              <article className="card" key={getKey(experience as ExperienceRow, index)}>
-                <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
-                <h3>{getHeading(experience as ExperienceRow)}</h3>
-                <p className="card-subtitle">
-                  {[experience.company, experience.location].filter(Boolean).join(" • ")}
-                </p>
-                {formatPeriod(experience as ExperienceRow) ? (
-                  <p className="card-period">{formatPeriod(experience as ExperienceRow)}</p>
-                ) : null}
-                {typeof experience.description === "string" && experience.description.trim() ? (
-                  <p>{experience.description}</p>
-                ) : (
-                  <p>
-                    Experience synchronisee depuis Supabase. Tu peux enrichir
-                    l&apos;affichage selon les colonnes de ta table.
+              <FadeIn key={getKey(experience as ExperienceRow, index)} delay={(index % 4) * 100} className="card">
+                <div className="card-header">
+                  <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{getHeading(experience as ExperienceRow, currentLocale) || dict.experiences.title}</h3>
+                  <p className="card-subtitle">
+                    {getCompanyStr(experience as ExperienceRow, currentLocale)}
                   </p>
-                )}
-              </article>
+                  {formatPeriod(experience as ExperienceRow, currentLocale) && (
+                    <span className="card-period">{formatPeriod(experience as ExperienceRow, currentLocale)}</span>
+                  )}
+                </div>
+                <div className="card-content">
+                  <p style={{ whiteSpace: "pre-line" }}>{getDescription(experience as ExperienceRow, currentLocale)}</p>
+                </div>
+              </FadeIn>
             ))}
           </div>
         ) : (
-          <div className="empty-state">
-            <h3>Aucune experience pour le moment</h3>
-            <p>Ajoute des lignes dans la table `experiences` pour les voir apparaitre ici.</p>
-          </div>
+          <FadeIn delay={200}>
+            <div className="card">
+              <h3>{dict.experiences.empty}</h3>
+              <p>{dict.experiences.emptyDesc}</p>
+            </div>
+          </FadeIn>
         )}
       </section>
 
-      <section className="panel skills" id="skills">
-        <p className="section-label">Competences</p>
-        <div className="skill-list">
-          <span>Next.js</span>
-          <span>TypeScript</span>
-          <span>Supabase</span>
-          <span>UI Design</span>
-          <span>Responsive</span>
-          <span>Performance</span>
-        </div>
+      {/* Education Section */}
+      <section id="education" className="panel" style={{ background: "transparent", border: "none", boxShadow: "none", padding: "40px 0" }}>
+        <FadeIn delay={100}>
+          <div className="section-heading">
+            <div>
+              <span className="section-label" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <BookOpen size={14} /> {dict.education.label}
+              </span>
+              <h2>{dict.education.title}</h2>
+              <p>{dict.education.subtitle}</p>
+            </div>
+          </div>
+        </FadeIn>
+
+        {error ? null : educations && educations.length > 0 ? (
+          <div className="cards">
+            {educations.map((experience, index) => (
+              <FadeIn key={getKey(experience as ExperienceRow, index)} delay={(index % 4) * 100} className="card">
+                <div className="card-header">
+                  <span className="card-index">{String(index + 1).padStart(2, "0")}</span>
+                  <h3>{getHeading(experience as ExperienceRow, currentLocale) || dict.education.title}</h3>
+                  <p className="card-subtitle">
+                    {getCompanyStr(experience as ExperienceRow, currentLocale)}
+                  </p>
+                  {formatPeriod(experience as ExperienceRow, currentLocale) && (
+                    <span className="card-period">{formatPeriod(experience as ExperienceRow, currentLocale)}</span>
+                  )}
+                </div>
+                <div className="card-content">
+                  <p style={{ whiteSpace: "pre-line" }}>{getDescription(experience as ExperienceRow, currentLocale)}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        ) : (
+          <FadeIn delay={200}>
+            <div className="card">
+              <h3>{dict.education.empty}</h3>
+              <p>{dict.experiences.emptyDesc}</p>
+            </div>
+          </FadeIn>
+        )}
       </section>
 
-      <section className="panel contact" id="contact">
-        <p className="section-label">Contact</p>
-        <h2>Disponible pour echanger sur ton prochain projet</h2>
-        <p>
-          Remplace ce contenu par ton email, ton LinkedIn, ton GitHub et les
-          informations utiles pour te contacter.
-        </p>
-        <a className="button primary" href="mailto:hello@example.com">
-          Me contacter
-        </a>
-      </section>
+      <FadeIn delay={100}>
+        <section className="panel" id="skills">
+          <span className="section-label">{dict.skills.label}</span>
+          <h2>{dict.skills.title}</h2>
+          <div className="skill-list">
+            <span>Next.js 15</span>
+            <span>React 19</span>
+            <span>TypeScript</span>
+            <span>Supabase SSR</span>
+            <span>UI/UX Design</span>
+            <span>Tailwind CSS</span>
+            <span>Framer Motion</span>
+            <span>Performance (Vitals)</span>
+          </div>
+        </section>
+      </FadeIn>
+
+      <FadeIn delay={200}>
+        <section className="panel contact" id="contact">
+          <span className="section-label">{dict.contact.label}</span>
+          <h2>{dict.contact.title}</h2>
+          <p>{dict.contact.text}</p>
+          <a className="button primary" href="mailto:hello@example.com">
+            <Mail size={18} /> {dict.contact.button}
+          </a>
+        </section>
+      </FadeIn>
     </main>
   );
 }

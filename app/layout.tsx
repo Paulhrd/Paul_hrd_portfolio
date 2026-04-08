@@ -1,32 +1,41 @@
 import type { Metadata } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Inter, Manrope } from "next/font/google";
+import { cookies } from "next/headers";
 import type { ReactNode } from "react";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 import "./globals.css";
 
-const fraunces = Fraunces({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-display",
 });
 
-const manrope = Manrope({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
 });
 
 export const metadata: Metadata = {
-  title: "Paul Hurard | Portfolio",
+  title: "Paul Huard | Portfolio",
   description: "Portfolio Next.js avec experiences chargees depuis Supabase.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const lang = cookieStore.get("NEXT_LOCALE")?.value || "en";
+
   return (
-    <html lang="fr">
-      <body className={`${fraunces.variable} ${manrope.variable}`}>{children}</body>
+    <html lang={lang} suppressHydrationWarning>
+      <body className={`${manrope.variable} ${inter.variable}`}>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
