@@ -94,7 +94,7 @@ export default async function Page() {
       </FadeIn>
 
       {/* Professional Experiences Section */}
-      <section id="experiences" className="panel" style={{ background: "transparent", border: "none", boxShadow: "none", padding: "40px 0" }}>
+      <section id="experiences" className="panel" style={{ background: "transparent", border: "none", boxShadow: "none", padding: "40px" }}>
         <FadeIn delay={100}>
           <div className="section-heading">
             <div>
@@ -126,7 +126,7 @@ export default async function Page() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="panel" style={{ background: "transparent", border: "none", boxShadow: "none", padding: "40px 0" }}>
+      <section id="education" className="panel" style={{ background: "transparent", border: "none", boxShadow: "none", padding: "40px" }}>
         <FadeIn delay={100}>
           <div className="section-heading">
             <div>
