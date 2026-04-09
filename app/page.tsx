@@ -7,6 +7,7 @@ import { ExperienceGrid, type ExperienceRow } from "./components/ExperienceGrid"
 import { FadeIn } from "./hooks/useIntersectionObserver";
 import { ArrowRight, Download, Mail, BookOpen, Briefcase } from "lucide-react";
 import { dictionaries, type Locale } from "./utils/i18n";
+import { CybercoreBackground } from "./components/ui/CybercoreBackground";
 
 export default async function Page() {
   const cookieStore = await cookies();
@@ -39,7 +40,7 @@ export default async function Page() {
 
   return (
     <main className="page-shell">
-      <div className="background-glow" />
+      <CybercoreBackground beamCount={60} />
 
       <header className="site-header">
         <nav className="topbar">
@@ -64,7 +65,17 @@ export default async function Page() {
           <div className="hero-grid">
             <div className="hero-content">
               <span className="eyebrow">{dict.hero.eyebrow}</span>
-              <h1>{dict.hero.title}</h1>
+              <h1 className="animated-hero-title">
+                {dict.hero.titleStart}
+                <span className="title-dynamic">
+                  <span className="word-slider">
+                    {dict.hero.titleWords.map((word: string, idx: number) => (
+                      <span key={idx} className="slider-word">{word}.</span>
+                    ))}
+                    <span aria-hidden="true" className="slider-word">{dict.hero.titleWords[0]}.</span>
+                  </span>
+                </span>
+              </h1>
               <p className="intro">{dict.hero.intro}</p>
               <div className="hero-actions">
                 <a className="button primary" href="#experiences">

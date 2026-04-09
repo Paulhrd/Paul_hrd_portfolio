@@ -120,6 +120,43 @@ h1 {
   background-clip: text;
 }
 
+.animated-hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title-dynamic {
+  display: inline-flex;
+  height: 1.1em;
+  overflow: hidden;
+  position: relative;
+}
+
+.word-slider {
+  display: flex;
+  flex-direction: column;
+  animation: slideWords 7.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.slider-word {
+  height: 1.1em;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+
+@keyframes slideWords {
+  0%, 25% { transform: translateY(0); }
+  33.33%, 58.33% { transform: translateY(-1.1em); }
+  66.66%, 91.66% { transform: translateY(-2.2em); }
+  100% { transform: translateY(-3.3em); }
+}
+
 h2 {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
@@ -610,6 +647,7 @@ p {
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -781,4 +819,65 @@ p {
 .site-footer .built-with {
   font-size: 0.85rem;
   opacity: 0.8;
+}
+
+/* Cybercore Background (Light & Dark adapted) */
+.cybercore-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  /* Floor glow at bottom */
+  background: radial-gradient(ellipse at bottom, rgba(62, 207, 205, 0.05) 0%, transparent 60%);
+  --beam-opacity: 0.4;
+  --rise-distance: -120vh;
+}
+
+.dark .cybercore-scene {
+  background: radial-gradient(ellipse at bottom, rgba(62, 207, 205, 0.15) 0%, transparent 60%);
+  --beam-opacity: 0.8;
+}
+
+.light-stream-container {
+  position: absolute;
+  inset: 0;
+  transform: perspective(600px) rotateX(15deg);
+  transform-origin: bottom center;
+}
+
+.light-beam {
+  position: absolute;
+  bottom: -20vh;
+  height: 25vh;
+  border-radius: 999px;
+  background: var(--primary);
+  opacity: 0;
+  animation-name: cyberRise, cyberFade;
+  animation-timing-function: linear, ease-in-out;
+  animation-iteration-count: infinite, infinite;
+  box-shadow: 0 0 12px 2px rgba(62, 207, 205, 0.4);
+}
+
+.light-beam.secondary {
+  background: var(--secondary);
+  box-shadow: 0 0 16px 3px rgba(79, 140, 255, 0.4);
+}
+
+.dark .light-beam {
+  box-shadow: 0 0 16px 4px rgba(62, 207, 205, 0.6);
+}
+
+.dark .light-beam.secondary {
+  box-shadow: 0 0 20px 5px rgba(79, 140, 255, 0.6);
+}
+
+@keyframes cyberRise {
+  0% { transform: translateY(20vh); }
+  100% { transform: translateY(var(--rise-distance)); }
+}
+
+@keyframes cyberFade {
+  0%, 100% { opacity: 0; }
+  15%, 85% { opacity: var(--beam-opacity); }
 }

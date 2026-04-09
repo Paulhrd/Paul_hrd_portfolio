@@ -2,7 +2,8 @@ export const dictionaries = {
   en: {
     hero: {
       eyebrow: "Personal Portfolio",
-      title: "I turn data into intelligent products: interfaces, automations, and AI models.",
+      titleStart: "I turn data into intelligent products:",
+      titleWords: ["interfaces", "automations", "AI models"],
       intro: "Full-stack & data science engineer, I build data-driven applications and solutions. Open to opportunities worldwide.",
       explore: "Explore my experiences",
       download: "Download my Resume",
@@ -47,7 +48,8 @@ export const dictionaries = {
   fr: {
     hero: {
       eyebrow: "Portfolio Personnel",
-      title: "Je transforme la data en produits intelligents : interfaces, automatisations et modèles d'IA.",
+      titleStart: "Je transforme la data en produits intelligents :",
+      titleWords: ["interfaces", "automatisations", "modèles d'IA"],
       intro: "Ingénieur full-stack & data science, je développe des applications et solutions data-driven. Ouvert à des opportunités partout dans le monde.",
       explore: "Explorer mes experiences",
       download: "Telecharger mon CV",
