@@ -3,22 +3,24 @@
 import React, { useState, useEffect, CSSProperties } from 'react';
 
 export interface CybercoreBackgroundProps {
-  /** Number of animated light beams */
+  /** Number of animated light beams (desktop) */
   beamCount?: number;
 }
 
-const DEFAULT_BEAM_COUNT = 70;
-
 export const CybercoreBackground: React.FC<CybercoreBackgroundProps> = ({
-  beamCount = DEFAULT_BEAM_COUNT,
+  beamCount = 35,
 }) => {
   const [beams, setBeams] = useState<
     Array<{ id: number; type: 'primary' | 'secondary'; style: CSSProperties }>
   >([]);
 
   useEffect(() => {
+    // Reduce beam count on mobile to limit GPU work
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+    const count = isMobile ? Math.min(beamCount, 15) : beamCount;
+
     // Generate static beams on mount to avoid hydration mismatch
-    const generated = Array.from({ length: beamCount }).map((_, i) => {
+    const generated = Array.from({ length: count }).map((_, i) => {
       const riseDur = Math.random() * 4 + 6;   // 6-10s rise
       const fadeDur = riseDur;                 // sync fade
       const type: 'primary' | 'secondary' = Math.random() < 0.25 ? 'secondary' : 'primary';
@@ -41,8 +43,8 @@ export const CybercoreBackground: React.FC<CybercoreBackgroundProps> = ({
   return (
     <div
       className="cybercore-scene"
-      role="img"
-      aria-label="Animated cybercore grid background"
+      role="presentation"
+      aria-hidden="true"
     >
       <div className="light-stream-container">
         {beams.map((beam) => (

@@ -223,6 +223,8 @@ p {
 .panel {
   margin-top: 24px;
   padding: 40px;
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
 }
 
 /* Header */
@@ -571,7 +573,6 @@ p {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
 }
 
 .animate-on-scroll.is-visible {
@@ -870,6 +871,7 @@ p {
   inset: 0;
   transform: perspective(600px) rotateX(15deg);
   transform-origin: bottom center;
+  contain: layout;
 }
 
 .light-beam {
@@ -879,6 +881,7 @@ p {
   border-radius: 999px;
   background: var(--primary);
   opacity: 0;
+  will-change: transform, opacity;
   animation-name: cyberRise, cyberFade;
   animation-timing-function: linear, ease-in-out;
   animation-iteration-count: infinite, infinite;

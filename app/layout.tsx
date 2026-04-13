@@ -9,11 +9,15 @@ import "./globals.css";
 const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+  preload: true,
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -44,6 +48,15 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#07111F" },
+  ],
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -54,7 +67,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} suppressHydrationWarning>
-      <body className={`${manrope.variable} ${inter.variable}`}>
+      <body className={`${manrope.variable} ${inter.variable}`} suppressHydrationWarning>
         <ThemeProvider>
           {children}
         </ThemeProvider>

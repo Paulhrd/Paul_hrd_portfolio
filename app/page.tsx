@@ -8,6 +8,7 @@ import { FadeIn } from "./hooks/useIntersectionObserver";
 import { ArrowRight, Download, Mail, BookOpen, Briefcase } from "lucide-react";
 import { dictionaries, type Locale } from "./utils/i18n";
 import { CybercoreBackground } from "./components/ui/CybercoreBackground";
+import Image from "next/image";
 
 export default async function Page() {
   const cookieStore = await cookies();
@@ -40,7 +41,7 @@ export default async function Page() {
 
   return (
     <main className="page-shell">
-      <CybercoreBackground beamCount={60} />
+      <CybercoreBackground />
 
       <header className="site-header">
         <nav className="topbar">
@@ -87,7 +88,15 @@ export default async function Page() {
               </div>
             </div>
             <div className="hero-image-container">
-              <img src="/profile.jpg" alt="Paul Huard" className="hero-image" />
+              <Image
+                src="/profile.jpg"
+                alt="Paul Huard"
+                className="hero-image"
+                width={600}
+                height={600}
+                priority
+                quality={85}
+              />
             </div>
           </div>
         </section>
