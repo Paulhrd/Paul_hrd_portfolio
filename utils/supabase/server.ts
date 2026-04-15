@@ -10,7 +10,10 @@ type SupabaseCookiesToSet = {
 }[];
 
 export const createClient = (cookieStore: Awaited<ReturnType<typeof cookies>>) => {
-  return createServerClient(supabaseUrl!, supabaseKey!, {
+  if (!supabaseUrl || !supabaseKey) {
+    return null;
+  }
+  return createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
