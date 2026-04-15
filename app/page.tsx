@@ -12,15 +12,24 @@ import Image from "next/image";
 
 export default async function Page() {
   const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
-  
+
   const currentLocale = (cookieStore.get("NEXT_LOCALE")?.value as Locale) || "en";
   const dict = dictionaries[currentLocale];
 
-  const { data: experiencesData, error } = await supabase
-    .from("experiences")
-    .select("*")
-    .order("start_date", { ascending: false });
+  let experiencesData: ExperienceRow[] | null = null;
+  let error: { message: string } | null = null;
+
+  try {
+    const supabase = createClient(cookieStore);
+    const result = await supabase
+      .from("experiences")
+      .select("*")
+      .order("start_date", { ascending: false });
+    experiencesData = result.data as ExperienceRow[] | null;
+    error = result.error;
+  } catch (e) {
+    error = { message: e instanceof Error ? e.message : "Failed to connect to database" };
+  }
 
   const educations = (experiencesData?.filter(e => e.type === "eduction" || e.type === "education") || []) as ExperienceRow[];
   const experiences = (experiencesData?.filter(e => e.type !== "eduction" && e.type !== "education") || []) as ExperienceRow[];
