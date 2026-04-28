@@ -196,6 +196,9 @@ export default async function Page() {
         <p className="built-with">
           {dict.footer.builtWith}
         </p>
+        <a className="footer-link" href="/politique-confidentialite">
+          Regle de confidentialite
+        </a>
       </footer>
     </main>
   );
