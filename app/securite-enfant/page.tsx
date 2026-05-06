@@ -2,16 +2,16 @@ import { readFile } from "fs/promises";
 import path from "path";
 import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
-import { CybercoreBackground } from "../components/ui/CybercoreBackground";
 import { MarkdownDocument } from "../components/MarkdownDocument";
+import { CybercoreBackground } from "../components/ui/CybercoreBackground";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialite de Barava | Paul Huard",
-  description: "Politique de confidentialite de l'application Barava.",
+  title: "Securite enfant - Barava | Paul Huard",
+  description: "Normes de securite enfant de l'application Barava.",
 };
 
-export default async function PolitiqueConfidentialitePage() {
-  const filePath = path.join(process.cwd(), "POLITIQUE_DE_CONFIDENTIALITE.md");
+export default async function SecuriteEnfantPage() {
+  const filePath = path.join(process.cwd(), "NORMES_SECURITE_ENFANTS.md");
   const markdown = await readFile(filePath, "utf8");
 
   return (

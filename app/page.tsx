@@ -199,6 +199,9 @@ export default async function Page() {
         <a className="footer-link" href="/politique-confidentialite">
           Regle de confidentialite
         </a>
+        <a className="footer-link" href="/securite-enfant">
+          Securite enfant
+        </a>
       </footer>
     </main>
   );

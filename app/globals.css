@@ -964,6 +964,11 @@ p {
   line-height: 1.7;
 }
 
+.legal-document strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
 /* Cybercore Background (Light & Dark adapted) */
 .cybercore-scene {
   position: fixed;
